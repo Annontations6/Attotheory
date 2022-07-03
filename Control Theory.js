@@ -49,6 +49,15 @@ var init = () => {
     q1.getInfo = (amount) => Utils.getMathTo(getInfo(c1.level), getInfo(c1.level + amount));
   }
 
+  // q2
+  {
+    let getDesc = (level) => "q_2= "+ getQ1(c1.level);
+    let getInfo = (level) => "q_2=" + getQ1(level).toString();
+    q2 = theory.createUpgrade(2, currency, new ExponentialCost(1e14, Math.log2(3)));
+    q2.getDescription = (_) => Utils.getMath(getDesc(c2.level));
+    q2.getInfo = (amount) => Utils.getMathTo(getInfo(c2.level), getInfo(c2.level + amount));
+  }
+
   /////////////////////
   // Permanent Upgrades
    theory.createPublicationUpgrade(0, currency, 1e7);
