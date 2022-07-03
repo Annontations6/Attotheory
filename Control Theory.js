@@ -70,6 +70,14 @@ var init = () => {
       };
   }
 
+  {
+    q1Exp = theory.createMilestoneUpgrade(1, 3);
+    q1Exp.description = Localization.getUpgradeIncCustomExpDesc("q_1", "0.05");
+    q1Exp.info = Localization.getUpgradeIncCustomExpInfo("q_1", "0.05");
+    q1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+  }
+
+
   ////////////////////////////
   // Story Chapters
 
@@ -82,12 +90,13 @@ var updateAvailability = () => {
 
 var tick = (elapsedTime, multiplier) => {
   let dt = BigNumber.from(elapsedTime * multiplier);
+  let bonus = theory.publicationMultiplier;
   q += BigNumber.ONE *
        getQ1(q1.level);
-  currency.value += dt * getC1(c1.level) *
-                         getC2(c2.level) *
-                         getQ1(q1.level) *
-                         q.sqrt()
+  currency.value += dt * bonus.sqrt() * getC1(c1.level) *
+                                        getC2(c2.level) *
+                                        getQ1(q1.level) *
+                                        q.sqrt()
 }
 
 var getPrimaryEquation = () => {
@@ -96,6 +105,10 @@ var getPrimaryEquation = () => {
   result += "c_2"; 
 
   if (unlockQ1.level > 0) result += "q_1"; 
+
+  if (q1Exp.level == 1) result += "^{1.05}";
+  if (q1Exp.level == 2) result += "^{1.1}";
+  if (q1Exp.level == 3) result += "^{1.15}";
 
   result += " \\sqrt{q}"; 
 
@@ -111,5 +124,6 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 var getC2 = (level) => Utils.getStepwisePowerSum(level, 6, 36, 1).sqrt();
 var getQ1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
+var getQ1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 
 init();
