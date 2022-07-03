@@ -40,6 +40,12 @@ var init = () => {
     c2.getInfo = (amount) => Utils.getMathTo(getInfo(c1.level), getInfo(c1.level + amount));
   }
 
+  /////////////////////
+    // Permanent Upgrades
+    theory.createPublicationUpgrade(0, currency, 1e7);
+    theory.createBuyAllUpgrade(1, currency, 1e12);
+    theory.createAutoBuyerUpgrade(2, currency, 1e35);
+
   ////////////////////////////
   // Story Chapters
 
