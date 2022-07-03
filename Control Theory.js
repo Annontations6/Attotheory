@@ -68,6 +68,12 @@ var getPrimaryEquation = () => {
   return result;
 }
 
+var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
+var getPublicationMultiplier = (tau) => tau.pow(0.521) / BigNumber.from(2048).sqrt();
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.521}}{\\sqrt{2048}}";
+var getTau = () => currency.value.pow(0.6);
+var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
+
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 var getC2 = (level) => Utils.getStepwisePowerSum(level, 6, 36, 1).sqrt();
 
