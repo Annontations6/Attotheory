@@ -31,6 +31,15 @@ var init = () => {
     c1.getInfo = (amount) => Utils.getMathTo(getInfo(c1.level), getInfo(c1.level + amount));
   }
 
+  // c2
+  {
+    let getDesc = (level) => "c_2= \\sqrt{"+ getC1(c2.level) + "}";
+    let getInfo = (level) => "c_2=" + getC2(level).toString();
+    c2 = theory.createUpgrade(1, currency, new ExponentialCost(5, Math.log2(2)));
+    c2.getDescription = (_) => Utils.getMath(getDesc(c1.level));
+    c2.getInfo = (amount) => Utils.getMathTo(getInfo(c1.level), getInfo(c1.level + amount));
+  }
+
   ////////////////////////////
   // Story Chapters
 
@@ -45,6 +54,7 @@ var tick = (elapsedTime, multiplier) => {
   let dt = BigNumber.from(elapsedTime * multiplier);
   q += BigNumber.ONE;
   currency.value += dt * getC1(c1.level) *
+                         getC2(c2.level) *
                          q.sqrt()
 }
 
@@ -57,5 +67,6 @@ var getPrimaryEquation = () => {
 }
 
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getC2 = (level) => Utils.getStepwisePowerSum(level, 6, 36, 1);
 
 init();
