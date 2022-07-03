@@ -102,10 +102,10 @@ var getPrimaryEquation = () => {
   return result;
 }
 
-var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.6}";
+var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{1.225}";
 var getPublicationMultiplier = (tau) => tau.pow(0.521) / BigNumber.from(2048).sqrt();
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.521}}{\\sqrt{2048}}";
-var getTau = () => currency.value.pow(0.6);
+var getTau = () => currency.value.pow(1.225);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
