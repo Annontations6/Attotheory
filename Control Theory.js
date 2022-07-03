@@ -8,11 +8,8 @@ var id = "Attotheory";
 var name = "Attotheory";
 var description = "WOWOOWO I BACK NOW";
 
-var authors = "Gaunter#7599, peanut#6368 - developed the theory \n XLII#0042, SnaekySnacks#1161 - developed the sim and helped balancing";
-var version = "1.5.2";
-var publicationExponent = 0.2;
-var achievements;
-requiresGameVersion("1.4.29");
+var authors = "Annontations6";
+var version = "0.0.1";
 // Currency
 var rho;
 
