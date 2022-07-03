@@ -55,3 +55,5 @@ var getPrimaryEquation = () => {
 
   return result;
 }
+
+init();
