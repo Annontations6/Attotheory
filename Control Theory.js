@@ -95,7 +95,7 @@ var tick = (elapsedTime, multiplier) => {
        getQ1(q1.level);
   currency.value += dt * bonus.sqrt() * getC1(c1.level) *
                                         getC2(c2.level) *
-                                        getQ1(q1.level) *
+                                        getQ1(q1.level).pow(getQ1Exponent(q1Exp.level)) *
                                         q.sqrt()
 }
 
