@@ -40,11 +40,35 @@ var init = () => {
     c2.getInfo = (amount) => Utils.getMathTo(getInfo(c1.level), getInfo(c1.level + amount));
   }
 
+  // q1
+  {
+    let getDesc = (level) => "q_1= "+ getQ1(c1.level);
+    let getInfo = (level) => "q_1=" + getQ1(level).toString();
+    q1 = theory.createUpgrade(2, currency, new ExponentialCost(4.2e9, Math.log2(3)));
+    q1.getDescription = (_) => Utils.getMath(getDesc(c1.level));
+    q1.getInfo = (amount) => Utils.getMathTo(getInfo(c1.level), getInfo(c1.level + amount));
+  }
+
   /////////////////////
-    // Permanent Upgrades
-    theory.createPublicationUpgrade(0, currency, 1e7);
-    theory.createBuyAllUpgrade(1, currency, 1e12);
-    theory.createAutoBuyerUpgrade(2, currency, 1e35);
+  // Permanent Upgrades
+   theory.createPublicationUpgrade(0, currency, 1e7);
+   theory.createBuyAllUpgrade(1, currency, 1e12);
+   theory.createAutoBuyerUpgrade(2, currency, 1e35);
+
+
+  ///////////////////////
+  //// Milestone Upgrades
+    theory.setMilestoneCost(new LinearCost(8, 5));
+
+    {
+      unlockQ1 = theory.createMilestoneUpgrade(0, 1);
+      unlockQ1.description = "Unlock at " + Utils.getMath("q_1");
+      unlockQ1.info = "Unlock at combitor " + Utils.getMath("q_1");
+      unlockQ1.boughtOrRefunded = (_) => {
+        updateAvailability();
+        theory.invalidatePrimaryEquation()
+      };
+  }
 
   ////////////////////////////
   // Story Chapters
@@ -58,9 +82,11 @@ var updateAvailability = () => {
 
 var tick = (elapsedTime, multiplier) => {
   let dt = BigNumber.from(elapsedTime * multiplier);
-  q += BigNumber.ONE;
+  q += BigNumber.ONE *
+       getQ1(q1.level);
   currency.value += dt * getC1(c1.level) *
                          getC2(c2.level) *
+                         getQ1(q1.level) *
                          q.sqrt()
 }
 
@@ -82,5 +108,6 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 var getC2 = (level) => Utils.getStepwisePowerSum(level, 6, 36, 1).sqrt();
+var getQ1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 
 init();
