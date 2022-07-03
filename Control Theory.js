@@ -77,15 +77,27 @@ var init = () => {
     q1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
   }
 
+  {
+    c1Exp = theory.createMilestoneUpgrade(2, 3);
+    c1Exp.description = Localization.getUpgradeIncCustomExpDesc("c_1", "0.1");
+    c1Exp.info = Localization.getUpgradeIncCustomExpInfo("c_1", "0.1");
+    c1Exp.boughtOrRefunded = (_) => {
+       updateAvailability();
+       theory.invalidatePrimaryEquation();
+    };
+  }
+
 
   ////////////////////////////
   // Story Chapters
 
-  
+  updateAvailability();
 }
 
 var updateAvailability = () => {
    q1.isAvailable = unlockQ1.level > 0;
+   q1Exp.isAvailable = unlockQ1.level > 0;
+   c1Exp.isAvailable = unlockQ1.level > 0;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -94,13 +106,17 @@ var tick = (elapsedTime, multiplier) => {
   q += BigNumber.ONE *
        getQ1(q1.level);
   currency.value += dt * bonus.sqrt() * getC1(c1.level) *
-                                        getC2(c2.level) *
+                                        getC2(c2.level).pow(getC1Exponent(c1Exp.level)) *
                                         getQ1(q1.level).pow(getQ1Exponent(q1Exp.level)) *
                                         q.sqrt()
 }
 
 var getPrimaryEquation = () => {
   let result = "\\dot{\\rho} = c_1";
+
+  if (c1Exp.level == 1) result += "^{1.1}";
+  if (c1Exp.level == 2) result += "^{1.2}";
+  if (c1Exp.level == 3) result += "^{1.3}";
 
   result += "c_2"; 
 
@@ -125,5 +141,6 @@ var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 var getC2 = (level) => Utils.getStepwisePowerSum(level, 6, 36, 1).sqrt();
 var getQ1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 var getQ1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
+var getC1Exponent = (level) => BigNumber.from(1 + 0.1 * level);
 
 init();
