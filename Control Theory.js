@@ -67,6 +67,6 @@ var getPrimaryEquation = () => {
 }
 
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
-var getC2 = (level) => Utils.getStepwisePowerSum(level, 6, 36, 1);
+var getC2 = (level) => Utils.getStepwisePowerSum(level, 6, 36, 1).sqrt();
 
 init();
