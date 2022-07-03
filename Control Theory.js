@@ -33,7 +33,7 @@ var init = () => {
 
   // c2
   {
-    let getDesc = (level) => "c_2= \\sqrt{"+ getC1(c2.level) + "}";
+    let getDesc = (level) => "c_2= \\sqrt{"+ Utils.getStepwisePowerSum(level, 6, 36, 1) + "}";
     let getInfo = (level) => "c_2=" + getC2(level).toString();
     c2 = theory.createUpgrade(1, currency, new ExponentialCost(5, Math.log2(2)));
     c2.getDescription = (_) => Utils.getMath(getDesc(c1.level));
