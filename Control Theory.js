@@ -77,7 +77,7 @@ var init = () => {
 }
 
 var updateAvailability = () => {
-    //set that milestone
+   q1.isAvailable = unlockQ1.level > 0;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -95,12 +95,14 @@ var getPrimaryEquation = () => {
 
   result += "c_2"; 
 
+  if (unlockQ1.level > 0) result += "q_1"; 
+
   result += " \\sqrt{q}"; 
 
   return result;
 }
 
-var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
+var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.6}";
 var getPublicationMultiplier = (tau) => tau.pow(0.521) / BigNumber.from(2048).sqrt();
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.521}}{\\sqrt{2048}}";
 var getTau = () => currency.value.pow(0.6);
