@@ -87,6 +87,16 @@ var init = () => {
     };
   }
 
+  {
+    unlockQ2 = theory.createMilestoneUpgrade(3, 1);
+    unlockQ2.description = "Unlock at " + Utils.getMath("q_2");
+    unlockQ2.info = "Unlock at combitor " + Utils.getMath("q_2");
+    unlockQ2.boughtOrRefunded = (_) => {
+      updateAvailability();
+      theory.invalidatePrimaryEquation()
+    };
+}
+
 
   ////////////////////////////
   // Story Chapters
@@ -108,6 +118,7 @@ var tick = (elapsedTime, multiplier) => {
   currency.value += dt * bonus.sqrt() * getC1(c1.level) *
                                         getC2(c2.level).pow(getC1Exponent(c1Exp.level)) *
                                         getQ1(q1.level).pow(getQ1Exponent(q1Exp.level)) *
+                                        getQ2(q2.level) *
                                         q.sqrt()
 }
 
@@ -140,6 +151,7 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 var getC2 = (level) => Utils.getStepwisePowerSum(level, 6, 36, 1).sqrt();
 var getQ1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
+var getQ2 = (level) => Utils.getStepwisePowerSum(level, 2, 15, 1);
 var getQ1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getC1Exponent = (level) => BigNumber.from(1 + 0.1 * level);
 
