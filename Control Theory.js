@@ -117,6 +117,8 @@ var updateAvailability = () => {
    q1.isAvailable = unlockQ1.level > 0;
    q1Exp.isAvailable = unlockQ1.level > 0;
    c1Exp.isAvailable = unlockQ1.level > 0;
+   unlockQ2.isAvailable = unlockQ1.level > 0;
+   q2.isAvailable = unlockQ2.level > 0;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -145,6 +147,8 @@ var getPrimaryEquation = () => {
   if (q1Exp.level == 1) result += "^{1.05}";
   if (q1Exp.level == 2) result += "^{1.1}";
   if (q1Exp.level == 3) result += "^{1.15}";
+
+  if (unlockQ2.level > 0) result += "q_2"; 
 
   result += " \\sqrt{q}"; 
 
